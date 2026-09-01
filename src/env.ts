@@ -1,10 +1,13 @@
+import 'dotenv/config'
 import { createEnv } from '@t3-oss/env-core'
 import { z } from 'zod'
 
 export const env = createEnv({
   server: {
-    SERVER_URL: z.string().url().optional(),
+    SERVER_URL: z.url().optional(),
     DATABASE_URL: z.url(),
+    BETTER_AUTH_SECRET: z.string().min(1),
+    BETTER_AUTH_URL: z.url(),
   },
 
   /**
@@ -15,13 +18,21 @@ export const env = createEnv({
 
   client: {
     VITE_APP_TITLE: z.string().min(1).optional(),
+    VITE_BASE_URL: z.url().optional(),
   },
 
   /**
    * What object holds the environment variables at runtime. This is usually
    * `process.env` or `import.meta.env`.
    */
-  runtimeEnv: import.meta.env,
+  runtimeEnv: {
+    SERVER_URL: process.env.SERVER_URL,
+    DATABASE_URL: process.env.DATABASE_URL,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+    VITE_APP_TITLE: import.meta.env.VITE_APP_TITLE,
+    VITE_BASE_URL: import.meta.env.VITE_BASE_URL,
+  },
 
   /**
    * By default, this library will feed the environment variables directly to
