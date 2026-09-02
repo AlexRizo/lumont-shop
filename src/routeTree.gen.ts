@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as shopCartIndexRouteImport } from './routes/(shop)/cart/index'
 import { Route as shopProductsIndexRouteImport } from './routes/(shop)/products/index'
 import { Route as shopProductsSlugRouteImport } from './routes/(shop)/products/$slug'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
@@ -17,6 +18,11 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const shopCartIndexRoute = shopCartIndexRouteImport.update({
+  id: '/(shop)/cart/',
+  path: '/cart/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const shopProductsIndexRoute = shopProductsIndexRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/products/$slug': typeof shopProductsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/cart/': typeof shopCartIndexRoute
   '/products/': typeof shopProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/products/$slug': typeof shopProductsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/cart': typeof shopCartIndexRoute
   '/products': typeof shopProductsIndexRoute
 }
 export interface FileRoutesById {
@@ -52,18 +60,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/(shop)/products/$slug': typeof shopProductsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/(shop)/cart/': typeof shopCartIndexRoute
   '/(shop)/products/': typeof shopProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/products/$slug' | '/api/auth/$' | '/products/'
+  fullPaths: '/' | '/products/$slug' | '/api/auth/$' | '/cart/' | '/products/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/products/$slug' | '/api/auth/$' | '/products'
+  to: '/' | '/products/$slug' | '/api/auth/$' | '/cart' | '/products'
   id:
     | '__root__'
     | '/'
     | '/(shop)/products/$slug'
     | '/api/auth/$'
+    | '/(shop)/cart/'
     | '/(shop)/products/'
   fileRoutesById: FileRoutesById
 }
@@ -71,6 +81,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   shopProductsSlugRoute: typeof shopProductsSlugRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  shopCartIndexRoute: typeof shopCartIndexRoute
   shopProductsIndexRoute: typeof shopProductsIndexRoute
 }
 
@@ -81,6 +92,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(shop)/cart/': {
+      id: '/(shop)/cart/'
+      path: '/cart'
+      fullPath: '/cart/'
+      preLoaderRoute: typeof shopCartIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(shop)/products/': {
@@ -111,6 +129,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   shopProductsSlugRoute: shopProductsSlugRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  shopCartIndexRoute: shopCartIndexRoute,
   shopProductsIndexRoute: shopProductsIndexRoute,
 }
 export const routeTree = rootRouteImport
