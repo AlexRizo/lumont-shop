@@ -34,10 +34,12 @@ export const Header = ({ user }: Props) => {
                 />
               </Link>
             ) : (
-              <Button size="lg">
-                <LogIn />
-                Iniciar Sesión
-              </Button>
+              <Link to='/auth/signin'>
+                <Button size="lg">
+                  <LogIn />
+                  Iniciar Sesión
+                </Button>
+              </Link>
             )}
           </div>
         </div>

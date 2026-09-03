@@ -1,10 +1,25 @@
-import { Header } from '#/components/layout/header'
+import { productsQueryOptions } from '#/hooks/queries/products.queries'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_shop/')({ component: Home })
+export const Route = createFileRoute('/_shop/')({
+  component: Home,
+  loader: ({ context }) => {
+    return context.queryClient.query({
+      ...productsQueryOptions({ page: 1, pageSize: 20 }),
+      staleTime: 'static',
+    })
+  },
+})
 
 function Home() {
+  const { data } = useSuspenseQuery(
+    productsQueryOptions({ page: 1, pageSize: 20 }),
+  )
+
   return (
-    <h1>Holaaaa</h1>
+    <section>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </section>
   )
 }

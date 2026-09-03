@@ -9,9 +9,7 @@ function RouteComponent() {
   return (
     <div>
       <Header user={null} />
-      <main>
-        <Outlet/>
-      </main>
+      <Outlet />
     </div>
   )
 }

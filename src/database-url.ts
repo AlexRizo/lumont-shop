@@ -5,5 +5,7 @@ export function getDatabaseUrl() {
     throw new Error('DATABASE_URL is required')
   }
 
+  console.log(databaseUrl)
+  
   return databaseUrl
 }
