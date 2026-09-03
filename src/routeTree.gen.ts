@@ -9,31 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as shopCartIndexRouteImport } from './routes/(shop)/cart/index'
-import { Route as shopProductsIndexRouteImport } from './routes/(shop)/products/index'
-import { Route as shopProductsSlugRouteImport } from './routes/(shop)/products/$slug'
+import { Route as ShopRouteRouteImport } from './routes/_shop/route'
+import { Route as ShopIndexRouteImport } from './routes/_shop/index'
+import { Route as ShopCartIndexRouteImport } from './routes/_shop/cart/index'
+import { Route as ShopProductsIndexRouteImport } from './routes/_shop/products/index'
+import { Route as ShopProductsSlugRouteImport } from './routes/_shop/products/$slug'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
-const IndexRoute = IndexRouteImport.update({
+const ShopRouteRoute = ShopRouteRouteImport.update({
+  id: '/_shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopIndexRoute = ShopIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ShopRouteRoute,
 } as any)
-const shopCartIndexRoute = shopCartIndexRouteImport.update({
-  id: '/(shop)/cart/',
+const ShopCartIndexRoute = ShopCartIndexRouteImport.update({
+  id: '/cart/',
   path: '/cart/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ShopRouteRoute,
 } as any)
-const shopProductsIndexRoute = shopProductsIndexRouteImport.update({
-  id: '/(shop)/products/',
+const ShopProductsIndexRoute = ShopProductsIndexRouteImport.update({
+  id: '/products/',
   path: '/products/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ShopRouteRoute,
 } as any)
-const shopProductsSlugRoute = shopProductsSlugRouteImport.update({
-  id: '/(shop)/products/$slug',
+const ShopProductsSlugRoute = ShopProductsSlugRouteImport.update({
+  id: '/products/$slug',
   path: '/products/$slug',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ShopRouteRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -42,26 +47,27 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/products/$slug': typeof shopProductsSlugRoute
+  '/': typeof ShopIndexRoute
+  '/products/$slug': typeof ShopProductsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/cart/': typeof shopCartIndexRoute
-  '/products/': typeof shopProductsIndexRoute
+  '/cart/': typeof ShopCartIndexRoute
+  '/products/': typeof ShopProductsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/products/$slug': typeof shopProductsSlugRoute
+  '/': typeof ShopIndexRoute
+  '/products/$slug': typeof ShopProductsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/cart': typeof shopCartIndexRoute
-  '/products': typeof shopProductsIndexRoute
+  '/cart': typeof ShopCartIndexRoute
+  '/products': typeof ShopProductsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/(shop)/products/$slug': typeof shopProductsSlugRoute
+  '/_shop': typeof ShopRouteRouteWithChildren
+  '/_shop/': typeof ShopIndexRoute
+  '/_shop/products/$slug': typeof ShopProductsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/(shop)/cart/': typeof shopCartIndexRoute
-  '/(shop)/products/': typeof shopProductsIndexRoute
+  '/_shop/cart/': typeof ShopCartIndexRoute
+  '/_shop/products/': typeof ShopProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -70,50 +76,55 @@ export interface FileRouteTypes {
   to: '/' | '/products/$slug' | '/api/auth/$' | '/cart' | '/products'
   id:
     | '__root__'
-    | '/'
-    | '/(shop)/products/$slug'
+    | '/_shop'
+    | '/_shop/'
+    | '/_shop/products/$slug'
     | '/api/auth/$'
-    | '/(shop)/cart/'
-    | '/(shop)/products/'
+    | '/_shop/cart/'
+    | '/_shop/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  shopProductsSlugRoute: typeof shopProductsSlugRoute
+  ShopRouteRoute: typeof ShopRouteRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  shopCartIndexRoute: typeof shopCartIndexRoute
-  shopProductsIndexRoute: typeof shopProductsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_shop': {
+      id: '/_shop'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ShopRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_shop/': {
+      id: '/_shop/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof ShopRouteRoute
     }
-    '/(shop)/cart/': {
-      id: '/(shop)/cart/'
+    '/_shop/cart/': {
+      id: '/_shop/cart/'
       path: '/cart'
       fullPath: '/cart/'
-      preLoaderRoute: typeof shopCartIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ShopCartIndexRouteImport
+      parentRoute: typeof ShopRouteRoute
     }
-    '/(shop)/products/': {
-      id: '/(shop)/products/'
+    '/_shop/products/': {
+      id: '/_shop/products/'
       path: '/products'
       fullPath: '/products/'
-      preLoaderRoute: typeof shopProductsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ShopProductsIndexRouteImport
+      parentRoute: typeof ShopRouteRoute
     }
-    '/(shop)/products/$slug': {
-      id: '/(shop)/products/$slug'
+    '/_shop/products/$slug': {
+      id: '/_shop/products/$slug'
       path: '/products/$slug'
       fullPath: '/products/$slug'
-      preLoaderRoute: typeof shopProductsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ShopProductsSlugRouteImport
+      parentRoute: typeof ShopRouteRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -125,12 +136,27 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ShopRouteRouteChildren {
+  ShopIndexRoute: typeof ShopIndexRoute
+  ShopProductsSlugRoute: typeof ShopProductsSlugRoute
+  ShopCartIndexRoute: typeof ShopCartIndexRoute
+  ShopProductsIndexRoute: typeof ShopProductsIndexRoute
+}
+
+const ShopRouteRouteChildren: ShopRouteRouteChildren = {
+  ShopIndexRoute: ShopIndexRoute,
+  ShopProductsSlugRoute: ShopProductsSlugRoute,
+  ShopCartIndexRoute: ShopCartIndexRoute,
+  ShopProductsIndexRoute: ShopProductsIndexRoute,
+}
+
+const ShopRouteRouteWithChildren = ShopRouteRoute._addFileChildren(
+  ShopRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  shopProductsSlugRoute: shopProductsSlugRoute,
+  ShopRouteRoute: ShopRouteRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  shopCartIndexRoute: shopCartIndexRoute,
-  shopProductsIndexRoute: shopProductsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

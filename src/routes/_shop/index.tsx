@@ -1,13 +1,10 @@
 import { Header } from '#/components/layout/header'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({ component: Home })
+export const Route = createFileRoute('/_shop/')({ component: Home })
 
 function Home() {
   return (
-    <div className="">
-      <Header />
-      <h1>HGolaaaaaaaaa</h1>
-    </div>
+    <h1>Holaaaa</h1>
   )
 }

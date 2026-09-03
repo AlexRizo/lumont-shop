@@ -11,7 +11,7 @@ interface Props {
 export const Header = ({ user }: Props) => {
   return (
     <header className="bg-white shadow p-6">
-      <nav className="container mx-auto flex flex-row justify-between">
+      <nav className="container mx-auto flex flex-row justify-between items-center">
         <h1 className="text-2xl font-bold">LuMont Store</h1>
         <div role="navigation" className="flex flex-row items-center gap-6">
           <Link to="/">Inicio</Link>
