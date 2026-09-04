@@ -3,7 +3,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 
 interface Props {
   name: string
-  avatar: string
+  avatar?: string | null
 }
 
 export const Profile = ({ name, avatar }: Props) => {
@@ -12,7 +12,7 @@ export const Profile = ({ name, avatar }: Props) => {
       <TooltipTrigger
         children={
           <Avatar>
-            <AvatarImage src={avatar} />
+            <AvatarImage src={avatar ?? undefined} />
             <AvatarFallback>
               {name.substring(0, 2).toUpperCase()}
             </AvatarFallback>

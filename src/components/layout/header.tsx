@@ -2,10 +2,10 @@ import { Link } from '@tanstack/react-router'
 import { Button } from '#/components/ui/button'
 import { LogIn, ShoppingCart } from 'lucide-react'
 import { Profile } from './profile'
-import type { User } from '@prisma/client'
+import type { Session } from '#/lib/auth'
 
 interface Props {
-  user: User | null
+  user: Session['user'] | null
 }
 
 export const Header = ({ user }: Props) => {
@@ -28,13 +28,10 @@ export const Header = ({ user }: Props) => {
             </Link>
             {user ? (
               <Link to="/account">
-                <Profile
-                  name="Diego Lopez"
-                  avatar="https://github.com/devalowee.png"
-                />
+                <Profile name={user.name} avatar={user.image} />
               </Link>
             ) : (
-              <Link to='/auth/signin'>
+              <Link to="/auth/signin">
                 <Button size="lg">
                   <LogIn />
                   Iniciar Sesión
