@@ -54,4 +54,28 @@ export const cartRepository = {
     prisma.cartItem.delete({
       where: { id: cartItemId },
     }),
+
+  mergeCarts: async (fromCartId: string, toCartId: string) => {
+    const fromItems = await prisma.cartItem.findMany({
+      where: { cartId: fromCartId },
+    })
+
+    await prisma.$transaction(async (tx) => {
+      for (const item of fromItems) {
+        await tx.cartItem.upsert({
+          where: {
+            cartId_variantId: { cartId: toCartId, variantId: item.variantId },
+          },
+          create: {
+            cartId: toCartId,
+            variantId: item.variantId,
+            quantity: item.quantity,
+          },
+          update: { quantity: { increment: item.quantity } },
+        })
+      }
+
+      await tx.cart.delete({ where: { id: fromCartId } })
+    })
+  },
 }

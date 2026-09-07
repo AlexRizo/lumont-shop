@@ -9,7 +9,12 @@ const globalForPrisma = globalThis as unknown as {
 }
 
 const adapter = new PrismaPg({
-  connectionString: getDatabaseUrl(),
+  // connectionString: getDatabaseUrl(),
+  host: 'localhost',
+  port: 5430,
+  user: 'lumont',
+  password: 'lumontpasswd',
+  database: 'lumont_shop',
 })
 
 export const prisma =
