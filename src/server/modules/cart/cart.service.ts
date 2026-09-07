@@ -56,4 +56,16 @@ export const cartService = {
     await cartRepository.removeItem(cartItemId)
     return cartService.getOrCreateCart(userId)
   },
+
+  mergeAnonymousCart: async (anonymousUserId: string, targetUserId: string) => {
+    const anonymousCart = await cartRepository.findByUserId(anonymousUserId)
+
+    if (!anonymousCart || !anonymousCart.items.length) return
+
+    const targetCart =
+      (await cartRepository.findByUserId(targetUserId)) ??
+      (await cartRepository.create(targetUserId))
+
+    await cartRepository.mergeCarts(anonymousCart.id, targetCart.id)
+  },
 }
