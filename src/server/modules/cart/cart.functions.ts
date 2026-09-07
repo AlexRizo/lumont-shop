@@ -47,8 +47,3 @@ export const removeCartItemFn = createServerFn({ method: 'POST' })
 
     return await cartService.removeItem(context.user.id, data.cartItemId)
   })
-
-export const mergeAnonymousCart = (
-  anonymousUserId: string,
-  targetUserId: string,
-) => cartService.mergeAnonymousCart(anonymousUserId, targetUserId)

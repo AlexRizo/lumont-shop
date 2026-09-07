@@ -3,7 +3,7 @@ import { anonymous } from 'better-auth/plugins'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { prisma } from './prisma'
-import { mergeAnonymousCart } from '#/server/modules/cart'
+import { cartService } from '#/server/modules/cart/cart.service'
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -33,7 +33,10 @@ export const auth = betterAuth({
   plugins: [
     anonymous({
       onLinkAccount: async ({ anonymousUser, newUser }) => {
-        await mergeAnonymousCart(anonymousUser.user.id, newUser.user.id)
+        await cartService.mergeAnonymousCart(
+          anonymousUser.user.id,
+          newUser.user.id,
+        )
       },
     }),
     tanstackStartCookies(),
