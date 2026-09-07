@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -55,6 +56,8 @@ model User {
   cart          Cart?
   orders        Order[]
 
+  isAnonymous Boolean? @default(false)
+
   @@unique([email])
   @@map("user")
 }
@@ -86,6 +89,7 @@ model Account {
   idToken               String?
   accessTokenExpiresAt  DateTime?
   refreshTokenExpiresAt DateTime?
+  issuer                String?
   scope                 String?
   password              String?
   createdAt             DateTime  @default(now())
