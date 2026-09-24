@@ -10,6 +10,7 @@ import { authClient } from '#/lib/auth-client'
 import { Navigate } from '@tanstack/react-router'
 import { Spinner } from '../ui/spinner'
 import { LogIn } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
 
 export const SignInForm = () => {
   const [serverError, setServerError] = useState<string | null>(null)
@@ -54,7 +55,12 @@ export const SignInForm = () => {
 
       <GoogleSignInButton />
 
-      <Separator className="my-6" />
+      <div className="relative flex items-center py-6">
+        <div className="w-full flex-1" />
+        <span className="relative z-5 bg-white px-2 text-sm">Otras opciones</span>
+        <Separator className="absolute" />
+        <div className="w-full flex-1" />
+      </div>
 
       <form
         onSubmit={(e) => {
@@ -118,7 +124,7 @@ export const SignInForm = () => {
         </FieldGroup>
 
         {serverError && (
-          <p className="text-sm text-destructive">{serverError}</p>
+          <p className="text-sm text-destructive text-center">{serverError}</p>
         )}
 
         <form.Subscribe
@@ -145,6 +151,16 @@ export const SignInForm = () => {
             </Button>
           )}
         </form.Subscribe>
+
+        <small className="flex items-center justify-center">
+          ¿No tienes una cuenta?{' '}
+          <Link
+            to="/auth/signup"
+            className="text-primary ml-1 font-medium underline-offset-4 hover:underline"
+          >
+            Regístrate
+          </Link>
+        </small>
       </form>
     </section>
   )

@@ -11,7 +11,7 @@ export const GoogleSignInButton = () => {
       }}
     >
       <img src="/icons/google.svg" alt="Google" className="size-4" />
-      Registrarse con Google
+      Ingresar con Google
     </Button>
   )
 }

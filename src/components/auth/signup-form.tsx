@@ -7,7 +7,7 @@ import { GoogleSignInButton } from './google-signin-button'
 import { Separator } from '../ui/separator'
 import { useState } from 'react'
 import { authClient } from '#/lib/auth-client'
-import { Navigate } from '@tanstack/react-router'
+import { Link, Navigate } from '@tanstack/react-router'
 import { Spinner } from '../ui/spinner'
 import { LogIn } from 'lucide-react'
 
@@ -57,7 +57,14 @@ export const SignUpForm = () => {
 
       <GoogleSignInButton />
 
-      <Separator className="my-6" />
+      <div className="relative flex items-center py-6">
+        <div className="w-full flex-1" />
+        <span className="relative z-5 bg-white px-2 text-sm">
+          Otras opciones
+        </span>
+        <Separator className="absolute" />
+        <div className="w-full flex-1" />
+      </div>
 
       <form
         onSubmit={(e) => {
@@ -199,6 +206,16 @@ export const SignUpForm = () => {
             </Button>
           )}
         </form.Subscribe>
+
+        <small className="flex items-center justify-center">
+          ¿Ya tienes una cuenta?{' '}
+          <Link
+            to="/auth/signin"
+            className="text-primary ml-1 font-medium underline-offset-4 hover:underline"
+          >
+            Inicia Sesión
+          </Link>
+        </small>
       </form>
     </section>
   )
