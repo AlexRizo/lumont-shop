@@ -7,12 +7,13 @@ import { GoogleSignInButton } from './google-signin-button'
 import { Separator } from '../ui/separator'
 import { useState } from 'react'
 import { authClient } from '#/lib/auth-client'
-import { Navigate, Link  } from '@tanstack/react-router'
+import { useNavigate, Link  } from '@tanstack/react-router'
 import { Spinner } from '../ui/spinner'
 import { LogIn } from 'lucide-react'
 
 export const SignInForm = () => {
   const [serverError, setServerError] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   const form = useForm({
     defaultValues: {
@@ -33,7 +34,7 @@ export const SignInForm = () => {
         },
         {
           onSuccess: () => {
-            Navigate({ to: '/auth/verify-email' })
+            navigate({ to: '/' })
           },
           onError: (ctx) => {
             setServerError(ctx.error.message)

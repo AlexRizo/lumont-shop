@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteRouteImport } from './routes/_shop/route'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as ShopIndexRouteImport } from './routes/_shop/index'
+import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
 import { Route as AuthSigninRouteImport } from './routes/auth/signin'
@@ -35,6 +36,11 @@ const ShopIndexRoute = ShopIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ShopRouteRoute,
+} as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   id: '/forgot-password',
@@ -90,19 +96,20 @@ export interface FileRoutesByFullPath {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/verify-email': typeof AuthVerifyEmailRoute
+  '/auth/': typeof AuthIndexRoute
   '/products/$slug': typeof ShopProductsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/cart/': typeof ShopCartIndexRoute
   '/products/': typeof ShopProductsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/auth': typeof AuthRouteRouteWithChildren
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/verify-email': typeof AuthVerifyEmailRoute
   '/': typeof ShopIndexRoute
+  '/auth': typeof AuthIndexRoute
   '/products/$slug': typeof ShopProductsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/cart': typeof ShopCartIndexRoute
@@ -118,6 +125,7 @@ export interface FileRoutesById {
   '/auth/signup': typeof AuthSignupRoute
   '/auth/verify-email': typeof AuthVerifyEmailRoute
   '/_shop/': typeof ShopIndexRoute
+  '/auth/': typeof AuthIndexRoute
   '/_shop/products/$slug': typeof ShopProductsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_shop/cart/': typeof ShopCartIndexRoute
@@ -133,19 +141,20 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/auth/verify-email'
+    | '/auth/'
     | '/products/$slug'
     | '/api/auth/$'
     | '/cart/'
     | '/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/auth'
     | '/auth/forgot-password'
     | '/auth/reset-password'
     | '/auth/signin'
     | '/auth/signup'
     | '/auth/verify-email'
     | '/'
+    | '/auth'
     | '/products/$slug'
     | '/api/auth/$'
     | '/cart'
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/auth/verify-email'
     | '/_shop/'
+    | '/auth/'
     | '/_shop/products/$slug'
     | '/api/auth/$'
     | '/_shop/cart/'
@@ -194,6 +204,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof ShopIndexRouteImport
       parentRoute: typeof ShopRouteRoute
+    }
+    '/auth/': {
+      id: '/auth/'
+      path: '/'
+      fullPath: '/auth/'
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof AuthRouteRoute
     }
     '/auth/forgot-password': {
       id: '/auth/forgot-password'
@@ -285,6 +302,7 @@ interface AuthRouteRouteChildren {
   AuthSigninRoute: typeof AuthSigninRoute
   AuthSignupRoute: typeof AuthSignupRoute
   AuthVerifyEmailRoute: typeof AuthVerifyEmailRoute
+  AuthIndexRoute: typeof AuthIndexRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
@@ -293,6 +311,7 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthSigninRoute: AuthSigninRoute,
   AuthSignupRoute: AuthSignupRoute,
   AuthVerifyEmailRoute: AuthVerifyEmailRoute,
+  AuthIndexRoute: AuthIndexRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
