@@ -13,7 +13,7 @@ type ProductWithRelations = PrismaProduct & {
 }
 
 type VariantAttributeValueWithRelations = PrismaVariantAttributeValue & {
-  attributeValue: PrismaAttributeValue & { attributeValue: PrismaAttribute }
+  attributeValue: PrismaAttributeValue & { attribute: PrismaAttribute }
 }
 
 type ProductVariantWithAttributes = PrismaProductVariant & {
@@ -29,7 +29,7 @@ export const toVariant = (variant: PrismaProductVariant) => {
   return {
     id: variant.id,
     sku: variant.sku,
-    price: variant.price.toString(),
+    price: variant.price.toFixed(2),
     stock: variant.stock,
   }
 }
@@ -38,7 +38,7 @@ export const toVariantDetail = (variant: ProductVariantWithAttributes) => {
   return {
     ...toVariant(variant),
     attributes: variant.attributeValues.map((vaa) => ({
-      attributeName: vaa.attributeValue.attributeValue.name,
+      attributeName: vaa.attributeValue.attribute.name,
       value: vaa.attributeValue.value,
     })),
   }

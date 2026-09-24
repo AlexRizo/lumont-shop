@@ -301,7 +301,7 @@ model Order {
   total       Decimal     @db.Decimal(10, 2)
 
   userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Restrict)
 
   shippingAddressId String
   shippingAddress   Address @relation(fields: [shippingAddressId], references: [id], onDelete: Restrict)

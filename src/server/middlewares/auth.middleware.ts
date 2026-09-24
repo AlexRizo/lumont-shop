@@ -1,6 +1,7 @@
 import { createMiddleware } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
 import { auth } from '#/lib/auth'
+import { UserRole } from '@prisma/client'
 
 export const sessionMiddleware = createMiddleware({ type: 'function' }).server(
   async ({ next }) => {
@@ -31,4 +32,14 @@ export const requireSessionMiddleware = createMiddleware({
         user: context.user,
       },
     })
+  })
+
+export const requireAdminMiddleware = createMiddleware({ type: 'function' })
+  .middleware([requireSessionMiddleware])
+  .server(async ({ next, context }) => {
+    if (context.user.role !== UserRole.ADMIN) {
+      throw new Error('Forbidden')
+    }
+
+    return next({ context: { user: context.user } })
   })
