@@ -7,10 +7,9 @@ import { GoogleSignInButton } from './google-signin-button'
 import { Separator } from '../ui/separator'
 import { useState } from 'react'
 import { authClient } from '#/lib/auth-client'
-import { Navigate } from '@tanstack/react-router'
+import { Navigate, Link  } from '@tanstack/react-router'
 import { Spinner } from '../ui/spinner'
 import { LogIn } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
 
 export const SignInForm = () => {
   const [serverError, setServerError] = useState<string | null>(null)
